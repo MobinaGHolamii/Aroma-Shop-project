@@ -28,7 +28,7 @@ namespace Shop.Controllers
                 return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
 
 
-             var category = _context.Categories.FirstOrDefault(c => c.Name == categoryName);
+            var category = _context.Categories.FirstOrDefault(c => c.Name == categoryName);
             if (category == null)
             {
                 category = new Category { Name = categoryName };
@@ -42,7 +42,7 @@ namespace Shop.Controllers
 
             return Json(new { success = true, message = "محصول با موفقیت ذخیره شد!", item });
         }
-        }
+    }
 
     
 }
