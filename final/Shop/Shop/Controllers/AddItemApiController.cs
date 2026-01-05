@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Models;
+using Shop.Models.Dtos;
+
 
 namespace Shop.Controllers.Api
 {
@@ -17,32 +20,49 @@ namespace Shop.Controllers.Api
         [HttpGet]
         public IActionResult GetAll()
         {
-            var items = _context.ShopItems.ToList();
+            var items = _context.ShopItems
+                .Include(x => x.Category)
+                .Select(x => new ShopItemDto
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Category = x.Category.Name
+                })
+                .ToList();
+
             return Ok(items);
         }
 
-        [HttpPost]
-        public IActionResult Add([FromBody] ShopItem item)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
+
+        [HttpPost]
+        public IActionResult Add([FromBody] AddItemDto dto)
+        {
             var category = _context.Categories
-                .FirstOrDefault(c => c.Id == item.IdCategory);
+                .FirstOrDefault(c => c.Name == dto.Category);
 
             if (category == null)
-                return BadRequest("Category not found");
+            {
+                category = new Category { Name = dto.Category };
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+            }
+
+            var item = new ShopItem
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+                Price = dto.Price,
+                IdCategory = category.Id
+            };
 
             _context.ShopItems.Add(item);
             _context.SaveChanges();
 
-            return Ok(new
-            {
-                success = true,
-                message = "محصول با موفقیت ذخیره شد",
-                item
-            });
+            return Ok("محصول اضافه شد");
         }
+
     }
 }
 

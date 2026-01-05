@@ -11,6 +11,10 @@ namespace Shop.Models
         public int Price { get; set; }
         [Column("IdCategory")] 
         public int IdCategory { get; set; }
+
+        [ForeignKey(nameof(IdCategory))]
+        public Category Category { get; set; }
+
     }
 
 }
