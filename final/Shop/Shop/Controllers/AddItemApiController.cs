@@ -8,7 +8,7 @@ using Shop.Models.Dtos;
 namespace Shop.Controllers.Api
 {
     [ApiController]
-    [Route("api/add-item")]
+    [Route("api")]
     public class AddItemApiController : ControllerBase
     {
         private readonly ShopDbContext _context;
@@ -17,7 +17,7 @@ namespace Shop.Controllers.Api
         {
             _context = context;
         }
-        [HttpGet]
+        [HttpGet("Show-Item")]
         public IActionResult GetAll()
         {
             var items = _context.ShopItems
@@ -36,7 +36,7 @@ namespace Shop.Controllers.Api
 
 
 
-        [HttpPost]
+        [HttpPost("Add-Item")]
         public IActionResult Add([FromBody] AddItemDto dto)
         {
             var category = _context.Categories
