@@ -14,6 +14,12 @@ namespace Shop.Controllers.Api
         {
             _context = context;
         }
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var items = _context.ShopItems.ToList();
+            return Ok(items);
+        }
 
         [HttpPost]
         public IActionResult Add([FromBody] ShopItem item)
