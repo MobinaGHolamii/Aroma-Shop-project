@@ -8,6 +8,8 @@ namespace Shop.Data
         public ShopDbContext(DbContextOptions<ShopDbContext> options)
             : base(options) { }
 
+        public DbSet<User> Users { get; set; }
+
         public DbSet<ShopItem> ShopItems { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ContactMessage> Message { get; set; }

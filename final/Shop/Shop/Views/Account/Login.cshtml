@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>ورود</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div style="color:red">
+        @ViewBag.Error
+    </div>
+}
+
+<form method="post">
+    <div>
+        <label>نام کاربری</label>
+        <input type="text" name="userName" required />
+    </div>
+
+    <div>
+        <label>رمز عبور</label>
+        <input type="password" name="password" required />
+    </div>
+
+    <button type="submit">ورود</button>
+</form>
