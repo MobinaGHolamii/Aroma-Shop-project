@@ -32,7 +32,7 @@ namespace Shop.Controllers
                 UserName = userName,
                 Email = email,
                 Password = password,
-                FKRole = 2,          
+                FkRole = 2,          
                 IsActive = true,
                 CreatedAt = DateTime.Now
             };

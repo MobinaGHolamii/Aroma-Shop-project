@@ -41,11 +41,11 @@ namespace Shop.Controllers
 
             // ✅ ذخیره Session
             HttpContext.Session.SetInt32("UserId", user.Id);
-            HttpContext.Session.SetInt32("Role", user.FKRole);
+            HttpContext.Session.SetInt32("Role", user.FkRole);
             HttpContext.Session.SetString("UserName", user.UserName);
 
             // Redirect بر اساس نقش
-            if (user.FKRole == 1) // Admin
+            if (user.FkRole == 1) // Admin
                 return RedirectToAction("NewItem", "AddItem");
             else // User عادی
                 return RedirectToAction("Index", "Home");

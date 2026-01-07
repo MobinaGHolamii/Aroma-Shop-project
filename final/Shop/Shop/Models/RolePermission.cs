@@ -7,10 +7,10 @@ namespace Shop.Models
         public int FkRole { get; set; }
         public int FkPermission { get; set; }
 
-        [ForeignKey("FKRole")]
+        [ForeignKey("FkRole")]
         public Role Role { get; set; }
 
-        [ForeignKey("FKPermission")]
+        [ForeignKey("FkPermission")]
         public Permission Permission { get; set; }
     }
 }

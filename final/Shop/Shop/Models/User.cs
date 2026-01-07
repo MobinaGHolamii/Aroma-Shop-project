@@ -1,4 +1,6 @@
-﻿namespace Shop.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Shop.Models
 {
     public class User
     {
@@ -9,6 +11,9 @@
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public int FKRole { get; set; }
+        public int FkRole { get; set; }
+
+        [ForeignKey(nameof(FkRole))]
+        public Role Role { get; set; }
     }
 }

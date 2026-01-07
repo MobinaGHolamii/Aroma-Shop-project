@@ -18,13 +18,13 @@ namespace Shop.Services
             if (user == null) return false;
 
             // Admin همه چی داره
-            if (user.FKRole == 1) return true;
+            if (user.FkRole == 1) return true;
 
             // چک کردن پرمیشن با جدول RolePermissions و Permissions
             return (from rp in _context.RolePermissions
                     join p in _context.Permissions
                         on rp.FkPermission equals p.Id
-                    where rp.FkRole == user.FKRole
+                    where rp.FkRole == user.FkRole
                           && p.Name == permissionName
                     select rp).Any();
         }
