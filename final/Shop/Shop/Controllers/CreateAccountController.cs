@@ -19,20 +19,32 @@ namespace Shop.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(string userName, string email, string password)
         {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(userName))
+                errors.Add("نام کاربری الزامی است.");
+
+            if (string.IsNullOrWhiteSpace(email))
+                errors.Add("ایمیل الزامی است.");
+
+            if (string.IsNullOrWhiteSpace(password))
+                errors.Add("رمز عبور الزامی است.");
+
             if (_context.Users.Any(u => u.UserName == userName))
-            {
-                ViewBag.Error = "این نام کاربری قبلاً استفاده شده";
-                return View();
-            }
+                errors.Add("این نام کاربری قبلاً استفاده شده.");
+
+            if (errors.Any())
+                return Json(new { success = false, errors });
 
             var user = new User
             {
                 UserName = userName,
                 Email = email,
                 Password = password,
-                FkRole = 2,          
+                FkRole = 2, 
                 IsActive = true,
                 CreatedAt = DateTime.Now
             };
@@ -40,8 +52,16 @@ namespace Shop.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            ViewBag.Success = "اکانت شما با موفقیت ایجاد شد!";
-            return View();
+            return Json(new
+            {
+                success = true,
+                message = "اکانت شما با موفقیت ایجاد شد!",
+                userId = user.Id,
+                userName = user.UserName,
+                role = user.FkRole
+            });
         }
+
     }
 }
+

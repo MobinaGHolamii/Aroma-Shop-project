@@ -21,8 +21,8 @@ namespace Shop.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear(); // پاک کردن همه Sessionها
-            return RedirectToAction("Login"); // برگردوندن به صفحه لاگین
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login"); 
         }
 
         [HttpPost]
@@ -39,15 +39,13 @@ namespace Shop.Controllers
                 return View();
             }
 
-            // ✅ ذخیره Session
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetInt32("Role", user.FkRole);
             HttpContext.Session.SetString("UserName", user.UserName);
 
-            // Redirect بر اساس نقش
-            if (user.FkRole == 1) // Admin
+            if (user.FkRole == 1) 
                 return RedirectToAction("NewItem", "AddItem");
-            else // User عادی
+            else 
                 return RedirectToAction("Index", "Home");
         }
     }
