@@ -17,10 +17,8 @@ namespace Shop.Services
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null) return false;
 
-            // Admin همه چی داره
             if (user.FkRole == 1) return true;
 
-            // چک کردن پرمیشن با جدول RolePermissions و Permissions
             return (from rp in _context.RolePermissions
                     join p in _context.Permissions
                         on rp.FkPermission equals p.Id

@@ -16,7 +16,6 @@ namespace Shop.Controllers
             _permissionService = permissionService;
         }
 
-        // فقط Admin یا کاربر لاگین کرده می‌تونه فرم ببینه (GET)
         [HttpGet]
         public IActionResult NewMessage()
         {
@@ -24,14 +23,10 @@ namespace Shop.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "Account");
 
-            // فقط Admin دسترسی به GET داره، User عادی نداره
-            if (!_permissionService.UserHasPermission(userId.Value, "ContactUS-Get"))
-                return Unauthorized();
-
+            
             return View();
         }
 
-        // POST پیام برای همه کاربرها (User و Admin)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult NewMessage(ContactMessage model)
@@ -40,10 +35,7 @@ namespace Shop.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "Account");
 
-            // چک پرمیشن POST
-            if (!_permissionService.UserHasPermission(userId.Value, "ContactUs-Post"))
-                return Unauthorized();
-
+          
             if (ModelState.IsValid)
             {
                 _context.Message.Add(model);
@@ -55,13 +47,9 @@ namespace Shop.Controllers
             return View(model);
         }
 
-        // این تست ذخیره رو می‌تونیم حذف کنیم یا فقط Admin دسترسی داشته باشه
         public IActionResult TestSave()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null || !_permissionService.UserHasPermission(userId.Value, "ContactUs-Post"))
-                return Unauthorized();
-
+         
             var msg = new ContactMessage
             {
                 UserName = "TEST",

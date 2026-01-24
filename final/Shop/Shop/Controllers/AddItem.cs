@@ -17,7 +17,6 @@ namespace Shop.Controllers
             _permissionService = permissionService;
         }
 
-        // GET: NewItem
         [HttpGet]
         public IActionResult NewItem()
         {
@@ -31,7 +30,6 @@ namespace Shop.Controllers
             return View();
         }
 
-        // POST: NewItem
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult NewItem(string categoryName, ShopItem item)
